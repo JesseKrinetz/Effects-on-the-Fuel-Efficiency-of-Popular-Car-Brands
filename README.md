@@ -33,3 +33,7 @@ The project includes diagnostic plots and visualizations such as:
 - Scatterplots of `displ` vs. `hwy` with regression trendlines
 
 ## Files
+- https://github.com/JesseKrinetz/Effects-on-the-Fuel-Efficiency-of-Popular-Car-Brands/blob/main/Effects-on-the-Fuel-Efficiency-of-Popular-Car-Brands.qmd
+  Quarto (R Markdown) file containing the full regression analysis, visualizations, and interpretations.
+- https://github.com/JesseKrinetz/Effects-on-the-Fuel-Efficiency-of-Popular-Car-Brands/blob/main/Fuel%20Efficiency%20Project.pptx
+  Slide deck summarizing results, methodology, and conclusions.
