@@ -1,0 +1,108 @@
+---
+title: "Effects on the Fuel Efficiency of Popular Car Brands"
+format: docx
+editor: visual
+---
+
+## MPG Data
+
+```{r}
+library(ggplot2)
+data(mpg)
+mpg
+model <- lm(hwy ~ displ + cyl + drv + year, data = mpg)
+
+```
+
+## Model Diagnostics
+
+## Residual Diagnostics/Residuals vs Fitted (homoscedasticity)
+
+```{r}
+plot(model, which = 1)
+```
+
+There is no pattern so homoscedasticity is satisfied.
+
+## Predicted Values and Residuals
+
+```{r}
+predictions <- predict(model)
+residuals <- model$residuals
+
+```
+
+## Normality of Residuals
+
+```{r}
+qqnorm(residuals)
+qqline(residuals)
+```
+
+For the most part, the points stay on the line so the residuals are normally distributed.
+
+## Independence of Errors
+
+```{r}
+plot(residuals, main = "Residuals vs Index", xlab = "Index", ylab = "Residuals")
+abline(h = 0, col = "red")
+```
+
+There is no trend so independence of errors is satisfied.
+
+## Multicollinearity
+
+```{r}
+library(car)
+vif(model)
+```
+
+The predictors show low to moderate multicollinearity.
+
+## Outliers
+
+```{r}
+std_residuals_model <- rstandard(model)  
+plot(std_residuals_model, main = "Standardized Residuals", xlab = "Index", ylab = "Standardized Residuals")
+abline(h = c(-2, 2), col = "red")
+```
+
+> Based on the standardized residual plot, a few observations fall outside the ±2 range, indicating potential outliers. There are only three points that are extreme residuals beyond +3 but it is a low number so they are unlikely to have a substantial influence on the regression model.
+
+## Leverage and Influential Points
+
+```{r}
+leverage <- hatvalues(model)
+plot(leverage, main = "Leverage Values", xlab = "Index", ylab = "Leverage")
+abline(h = 2 * mean(leverage), col = "red")
+```
+
+Most points fall below the red line which means the points are not overly influential on their own. Points above the red line have high leverage.
+
+## Scatter plots to explore relationship between Engine Displacement and Hwy
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point() +
+  geom_smooth(method = "lm", color = "red") +
+  labs(title = "Engine Displacement vs Highway MPG", x = "Engine Displacement (displ)", y = "Highway MPG (hwy)")
+```
+
+As engine displacement increases, the highway MPG decreases which shows a negative linear relationship.
+
+## Scatter plots for Cyl and Hwy
+
+```{r}
+ggplot(mpg, aes(x = cyl, y = hwy)) + 
+  geom_boxplot() +
+  labs(title = "Number of Cylinders vs Highway MPG", x = "Cylinders (cyl)", y = "Highway MPG (hwy)")
+
+```
+
+Vehicles with more cylinders generally have lower highway MPG.
+
+```{r}
+summary(model)
+
+confint(model)
+```
